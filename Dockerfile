@@ -1,5 +1,6 @@
 FROM python:3.9-alpine3.13
 LABEL maintainer="londonappdeveloper.com"
+
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
@@ -20,5 +21,7 @@ RUN python -m venv /py && \
         --disabled-password \
         --no-create-home \
         django-user
+
 ENV PATH="/py/bin:$PATH"
+
 USER django-user
