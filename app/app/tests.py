@@ -8,11 +8,11 @@ class CalcTests(SimpleTestCase):
 
     def test_add_numbers(self):
 
-        res = calc.add(5,6)
+        res = calc.add(5, 6)
 
-        self.assertEqual(res,11)
+        self.assertEqual(res, 11)
 
     def test_subtract(self):
-        res = calc.subtract(5,7)
+        res = calc.subtract(5, 7)
 
-        self.assertEqual(res,2)
+        self.assertEqual(res, 2)
