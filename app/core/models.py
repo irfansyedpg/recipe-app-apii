@@ -17,20 +17,32 @@ class UserManager(BaseUserManager):
     """ Manager for User model"""
 
     def create_user(self,email,password=None,**extra_field):
-        user = self.model(email=email,**extra_field)
+        if not email:
+            raise ValueError("User must have Email")
+        user = self.model(email=self.normalize_email(email),**extra_field)
         user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+    def create_superuser(self,email,password=None,**extra_fields):
+        """ create and return a new superuser. """
+
+        user = self.create_user(email,password)
+        user.is_staff=True
+        user.is_superuser=True
         user.save(using=self._db)
 
         return user
 
 
+
 class User(AbstractBaseUser,PermissionsMixin):
     """ User in the System."""
     email = models.EmailField(max_length=255,unique=True)
-    password = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,null=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserManager
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
